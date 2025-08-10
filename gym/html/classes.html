@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Classes & Schedule | PtsfitnessStudio Gym</title>
+    <link rel="stylesheet" href="../css/hearder.css">
+    <link rel="stylesheet" href="../css/classes.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&family=Oswald:wght@600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="main-header">
+        <div class="container">
+            <div class="logo">
+                <a href="home_page.html">PTSFITNESS<span>STUDIO</span></a>
+            </div>
+            
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="home_page.html">Home</a></li>
+                    <li><a href="home_page.html#about">About</a></li>
+                    <li><a href="classes.html" class="active">Classes</a></li>
+                    <li><a href="home_page.html#trainers">Trainers</a></li>
+                    <li><a href="home_page.html#membership">Membership</a></li>
+                    <li><a href="home_page.html#testimonials">Results</a></li>
+                    <li><a href="home_page.html#contact">Contact</a></li>
+                </ul>
+            </nav>
+            
+            <div class="header-cta">
+                <a href="home_page.html#membership" class="btn btn-primary join-now">Join Now</a>
+                <button class="mobile-menu-toggle" aria-label="Toggle mobile menu">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <section class="page-hero">
+        <div class="container">
+            <h1>Our <span>Classes</span></h1>
+            <p>Discover the perfect workout for your fitness journey</p>
+        </div>
+    </section>
+
+    <section class="class-filters">
+        <div class="container">
+            <div class="filter-tabs">
+                <button class="filter-tab active" data-filter="all">All Classes</button>
+                <button class="filter-tab" data-filter="strength">Strength</button>
+                <button class="filter-tab" data-filter="cardio">Cardio</button>
+                <button class="filter-tab" data-filter="flexibility">Flexibility</button>
+                <button class="filter-tab" data-filter="martial">Martial Arts</button>
+            </div>
+        </div>
+    </section>
+
+    <section class="classes-grid-section">
+        <div class="container">
+            <div class="classes-grid">
+                <div class="class-card" data-category="strength">
+                    <div class="class-image">
+                        <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="CrossFit">
+                        <div class="class-overlay">
+                            <span class="class-level">Advanced</span>
+                            <span class="class-duration">60 min</span>
+                        </div>
+                    </div>
+                    <div class="class-content">
+                        <h3>CrossFit</h3>
+                        <p class="class-description">High-intensity functional training combining weightlifting, gymnastics, and cardio.</p>
+                        <div class="class-details">
+                            <div class="detail-item">
+                                <i class="fas fa-user"></i>
+                                <span>Naveen</span>
+                            </div>
+                            <div class="detail-item">
+                                <i class="fas fa-clock"></i>
+                                <span>Mon, Wed, Fri</span>
+                            </div>
+                            <div class="detail-item">
+                                <i class="fas fa-fire"></i>
+                                <span>High Intensity</span>
+                            </div>
+                        </div>
+                        <div class="class-times">
+                            <span class="time-slot">7:00 AM</span>
+                            <span class="time-slot">6:00 PM</span>
+                        </div>
+                        <button class="btn btn-primary book-class" data-class="CrossFit">Book Now</button>
+                    </div>
+                </div>
+
+                <div class="class-card" data-category="cardio">
+                    <div class="class-image">
+                        <img src="https://images.unsplash.com/photo-1594381898411-846e7d193883?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Zumba">
+                        <div class="class-overlay">
+                            <span class="class-level">All Levels</span>
+                            <span class="class-duration">45 min</span>
+                        </div>
+                    </div>
+                    <div class="class-content">
+                        <h3>Zumba</h3>
+                        <p class="class-description">Fun, energetic dance fitness classes set to upbeat music, perfect for all levels.</p>
+                        <div class="class-details">
+                            <div class="detail-item">
+                                <i class="fas fa-user"></i>
+                                <span>Special Guest</span>
+                            </div>
+                            <div class="detail-item">
+                                <i class="fas fa-clock"></i>
+                                <span>Saturday</span>
+                            </div>
+                            <div class="detail-item">
+                                <i class="fas fa-fire"></i>
+                                <span>Medium Intensity</span>
+                            </div>
+                        </div>
+                        <div class="class-times">
+                            <span class="time-slot">11:00 AM</span>
+                        </div>
+                        <button class="btn btn-primary book-class" data-class="Zumba">Book Now</button>
+                    </div>
+                </div>
+
+                <div class="class-card" data-category="martial">
+                    <div class="class-image">
+                        <img src="https://images.unsplash.com/photo-1599599810694-b5b37304c847?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Boxing">
+                        <div class="class-overlay">
+                            <span class="class-level">Intermediate</span>
+                            <span class="class-duration">60 min</span>
+                        </div>
+                    </div>
+                    <div class="class-content">
+                        <h3>Boxing</h3>
+                        <p class="class-description">High-intensity boxing classes to improve strength, agility, and endurance.</p>
+                        <div class="class-details">
+                            <div class="detail-item">
+                                <i class="fas fa-user"></i>
+                                <span>Manikanth</span>
+                            </div>
+                            <div class="detail-item">
+                                <i class="fas fa-clock"></i>
+                                <span>Tue, Thu</span>
+                            </div>
+                            <div class="detail-item">
+                                <i class="fas fa-fire"></i>
+                                <span>High Intensity</span>
+                            </div>
+                        </div>
+                        <div class="class-times">
+                            <span class="time-slot">6:00 PM</span>
+                        </div>
+                        <button class="btn btn-primary book-class" data-class="Boxing">Book Now</button>
+                    </div>
+                </div>
+
+                <div class="class-card" data-category="flexibility">
+                    <div class="class-image">
+                        <img src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Yoga">
+                        <div class="class-overlay">
+                            <span class="class-level">All Levels</span>
+                            <span class="class-duration">75 min</span>
+                        </div>
+                    </div>
+                    <div class="class-content">
+                        <h3>Yoga</h3>
+                        <p class="class-description">Improve flexibility, strength and mental focus with our expert yoga instructors.</p>
+                        <div class="class-details">
+                            <div class="detail-item">
+                                <i class="fas fa-user"></i>
+                                <span>Srikanth</span>
+                            </div>
+                            <div class="detail-item">
+                                <i class="fas fa-clock"></i>
+                                <span>Tue, Thu</span>
+                            </div>
+                            <div class="detail-item">
+                                <i class="fas fa-fire"></i>
+                                <span>Low Intensity</span>
+                            </div>
+                        </div>
+                        <div class="class-times">
+                            <span class="time-slot">8:00 AM</span>
+                            <span class="time-slot">7:00 PM</span>
+                        </div>
+                        <button class="btn btn-primary book-class" data-class="Yoga">Book Now</button>
+                    </div>
+                </div>
+
+                <div class="class-card" data-category="strength">
+                    <div class="class-image">
+                        <img src="https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Personal Training">
+                        <div class="class-overlay">
+                            <span class="class-level">Custom</span>
+                            <span class="class-duration">60 min</span>
+                        </div>
+                    </div>
+                    <div class="class-content">
+                        <h3>Personal Training</h3>
+                        <p class="class-description">1-on-1 customized training programs tailored to your specific goals and needs.</p>
+                        <div class="class-details">
+                            <div class="detail-item">
+                                <i class="fas fa-user"></i>
+                                <span>All Trainers</span>
+                            </div>
+                            <div class="detail-item">
+                                <i class="fas fa-clock"></i>
+                                <span>Flexible</span>
+                            </div>
+                            <div class="detail-item">
+                                <i class="fas fa-fire"></i>
+                                <span>Custom</span>
+                            </div>
+                        </div>
+                        <div class="class-times">
+                            <span class="time-slot">By Appointment</span>
+                        </div>
+                        <button class="btn btn-primary book-class" data-class="Personal Training">Book Now</button>
+                    </div>
+                </div>
+
+                <div class="class-card" data-category="cardio">
+                    <div class="class-image">
+                        <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="HIIT">
+                        <div class="class-overlay">
+                            <span class="class-level">Intermediate</span>
+                            <span class="class-duration">30 min</span>
+                        </div>
+                    </div>
+                    <div class="class-content">
+                        <h3>HIIT Training</h3>
+                        <p class="class-description">High-Intensity Interval Training for maximum calorie burn and cardiovascular fitness.</p>
+                        <div class="class-details">
+                            <div class="detail-item">
+                                <i class="fas fa-user"></i>
+                                <span>Naveen</span>
+                            </div>
+                            <div class="detail-item">
+                                <i class="fas fa-clock"></i>
+                                <span>Mon, Wed, Fri</span>
+                            </div>
+                            <div class="detail-item">
+                                <i class="fas fa-fire"></i>
+                                <span>High Intensity</span>
+                            </div>
+                        </div>
+                        <div class="class-times">
+                            <span class="time-slot">5:30 PM</span>
+                        </div>
+                        <button class="btn btn-primary book-class" data-class="HIIT Training">Book Now</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="weekly-schedule">
+        <div class="container">
+            <h2>Weekly <span>Schedule</span></h2>
+            <div class="schedule-container">
+                <div class="schedule-header">
+                    <button class="schedule-nav prev-week"><i class="fas fa-chevron-left"></i></button>
+                    <h3 id="current-week">Week of December 18, 2024</h3>
+                    <button class="schedule-nav next-week"><i class="fas fa-chevron-right"></i></button>
+                </div>
+                <div class="schedule-grid">
+                    <div class="day-column">
+                        <div class="day-header">Monday</div>
+                        <div class="class-slot">
+                            <div class="class-info">
+                                <h4>CrossFit</h4>
+                                <p>7:00 AM - 8:00 AM</p>
+                                <span class="trainer">Naveen</span>
+                            </div>
+                            <button class="btn btn-outline book-slot">Book</button>
+                        </div>
+                        <div class="class-slot">
+                            <div class="class-info">
+                                <h4>HIIT Training</h4>
+                                <p>5:30 PM - 6:00 PM</p>
+                                <span class="trainer">Naveen</span>
+                            </div>
+                            <button class="btn btn-outline book-slot">Book</button>
+                        </div>
+                        <div class="class-slot">
+                            <div class="class-info">
+                                <h4>CrossFit</h4>
+                                <p>6:00 PM - 7:00 PM</p>
+                                <span class="trainer">Naveen</span>
+                            </div>
+                            <button class="btn btn-outline book-slot">Book</button>
+                        </div>
+                    </div>
+                    <div class="day-column">
+                        <div class="day-header">Tuesday</div>
+                        <div class="class-slot">
+                            <div class="class-info">
+                                <h4>Yoga</h4>
+                                <p>8:00 AM - 9:15 AM</p>
+                                <span class="trainer">Srikanth</span>
+                            </div>
+                            <button class="btn btn-outline book-slot">Book</button>
+                        </div>
+                        <div class="class-slot">
+                            <div class="class-info">
+                                <h4>Boxing</h4>
+                                <p>6:00 PM - 7:00 PM</p>
+                                <span class="trainer">Manikanth</span>
+                            </div>
+                            <button class="btn btn-outline book-slot">Book</button>
+                        </div>
+                        <div class="class-slot">
+                            <div class="class-info">
+                                <h4>Yoga</h4>
+                                <p>7:00 PM - 8:15 PM</p>
+                                <span class="trainer">Srikanth</span>
+                            </div>
+                            <button class="btn btn-outline book-slot">Book</button>
+                        </div>
+                    </div>
+                    <div class="day-column">
+                        <div class="day-header">Wednesday</div>
+                        <div class="class-slot">
+                            <div class="class-info">
+                                <h4>CrossFit</h4>
+                                <p>7:00 AM - 8:00 AM</p>
+                                <span class="trainer">Naveen</span>
+                            </div>
+                            <button class="btn btn-outline book-slot">Book</button>
+                        </div>
+                        <div class="class-slot">
+                            <div class="class-info">
+                                <h4>HIIT Training</h4>
+                                <p>5:30 PM - 6:00 PM</p>
+                                <span class="trainer">Naveen</span>
+                            </div>
+                            <button class="btn btn-outline book-slot">Book</button>
+                        </div>
+                        <div class="class-slot">
+                            <div class="class-info">
+                                <h4>CrossFit</h4>
+                                <p>6:00 PM - 7:00 PM</p>
+                                <span class="trainer">Naveen</span>
+                            </div>
+                            <button class="btn btn-outline book-slot">Book</button>
+                        </div>
+                    </div>
+                    <div class="day-column">
+                        <div class="day-header">Thursday</div>
+                        <div class="class-slot">
+                            <div class="class-info">
+                                <h4>Yoga</h4>
+                                <p>8:00 AM - 9:15 AM</p>
+                                <span class="trainer">Srikanth</span>
+                            </div>
+                            <button class="btn btn-outline book-slot">Book</button>
+                        </div>
+                        <div class="class-slot">
+                            <div class="class-info">
+                                <h4>Boxing</h4>
+                                <p>6:00 PM - 7:00 PM</p>
+                                <span class="trainer">Manikanth</span>
+                            </div>
+                            <button class="btn btn-outline book-slot">Book</button>
+                        </div>
+                        <div class="class-slot">
+                            <div class="class-info">
+                                <h4>Yoga</h4>
+                                <p>7:00 PM - 8:15 PM</p>
+                                <span class="trainer">Srikanth</span>
+                            </div>
+                            <button class="btn btn-outline book-slot">Book</button>
+                        </div>
+                    </div>
+                    <div class="day-column">
+                        <div class="day-header">Friday</div>
+                        <div class="class-slot">
+                            <div class="class-info">
+                                <h4>CrossFit</h4>
+                                <p>7:00 AM - 8:00 AM</p>
+                                <span class="trainer">Naveen</span>
+                            </div>
+                            <button class="btn btn-outline book-slot">Book</button>
+                        </div>
+                        <div class="class-slot">
+                            <div class="class-info">
+                                <h4>HIIT Training</h4>
+                                <p>5:30 PM - 6:00 PM</p>
+                                <span class="trainer">Naveen</span>
+                            </div>
+                            <button class="btn btn-outline book-slot">Book</button>
+                        </div>
+                        <div class="class-slot">
+                            <div class="class-info">
+                                <h4>CrossFit</h4>
+                                <p>6:00 PM - 7:00 PM</p>
+                                <span class="trainer">Naveen</span>
+                            </div>
+                            <button class="btn btn-outline book-slot">Book</button>
+                        </div>
+                    </div>
+                    <div class="day-column">
+                        <div class="day-header">Saturday</div>
+                        <div class="class-slot">
+                            <div class="class-info">
+                                <h4>Zumba</h4>
+                                <p>11:00 AM - 11:45 AM</p>
+                                <span class="trainer">Special Guest</span>
+                            </div>
+                            <button class="btn btn-outline book-slot">Book</button>
+                        </div>
+                    </div>
+                    <div class="day-column">
+                        <div class="day-header">Sunday</div>
+                        <div class="class-slot closed">
+                            <div class="class-info">
+                                <h4>Closed</h4>
+                                <p>Enjoy your rest day!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Booking Modal -->
+    <div id="bookingModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Book Your Class</h2>
+            <form id="bookingForm">
+                <div class="form-group">
+                    <label for="className">Class:</label>
+                    <input type="text" id="className" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="classDate">Date:</label>
+                    <input type="date" id="classDate" required>
+                </div>
+                <div class="form-group">
+                    <label for="classTime">Time:</label>
+                    <select id="classTime" required>
+                        <option value="">Select Time</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="memberName">Your Name:</label>
+                    <input type="text" id="memberName" required>
+                </div>
+                <div class="form-group">
+                    <label for="memberEmail">Email:</label>
+                    <input type="email" id="memberEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="memberPhone">Phone:</label>
+                    <input type="tel" id="memberPhone" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Confirm Booking</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="../js/header.js"></script>
+    <script src="../js/classes.js"></script>
+</body>
+</html>
