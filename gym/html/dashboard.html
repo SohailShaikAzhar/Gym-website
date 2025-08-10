@@ -255,43 +255,60 @@
                 </div>
 
                 <!-- Nutrition Tracker -->
-                <div class="dashboard-card nutrition-card">
+                <div class="dashboard-card nutrition-tracker">
                     <div class="card-header">
                         <h3><i class="fas fa-apple-alt"></i> Nutrition Today</h3>
-                        <span class="nutrition-date">December 18, 2024</span>
+                        <span class="card-icon"><i class="fas fa-apple-alt"></i></span>
                     </div>
-                    <div class="nutrition-content">
-                        <div class="nutrition-macros">
-                            <div class="macro-item">
-                                <span class="macro-label">Calories</span>
-                                <span class="macro-value">1,850 / 2,200</span>
-                                <div class="macro-bar">
-                                    <div class="macro-fill" style="width: 84%"></div>
-                                </div>
+                    <div class="card-body">
+                        <div class="macro-item" data-macro="protein">
+                            <div class="macro-info">
+                                <h4>Protein</h4>
+                                <p>Essential for muscle building</p>
                             </div>
-                            <div class="macro-item">
-                                <span class="macro-label">Protein</span>
-                                <span class="macro-value">120g / 150g</span>
-                                <div class="macro-bar">
-                                    <div class="macro-fill" style="width: 80%"></div>
-                                </div>
+                            <div class="macro-progress">
+                                <div class="macro-fill protein" style="width: 80%"></div>
                             </div>
-                            <div class="macro-item">
-                                <span class="macro-label">Carbs</span>
-                                <span class="macro-value">180g / 220g</span>
-                                <div class="macro-bar">
-                                    <div class="macro-fill" style="width: 82%"></div>
-                                </div>
-                            </div>
-                            <div class="macro-item">
-                                <span class="macro-label">Fat</span>
-                                <span class="macro-value">65g / 75g</span>
-                                <div class="macro-bar">
-                                    <div class="macro-fill" style="width: 87%"></div>
-                                </div>
+                            <div class="macro-value">
+                                <span class="macro-current">120g</span> / <span class="macro-target">150g</span>
                             </div>
                         </div>
-                        <button class="btn btn-outline">Log Meal</button>
+                        <div class="macro-item" data-macro="carbs">
+                            <div class="macro-info">
+                                <h4>Carbs</h4>
+                                <p>Primary energy source</p>
+                            </div>
+                            <div class="macro-progress">
+                                <div class="macro-fill carbs" style="width: 80%"></div>
+                            </div>
+                            <div class="macro-value">
+                                <span class="macro-current">200g</span> / <span class="macro-target">250g</span>
+                            </div>
+                        </div>
+                        <div class="macro-item" data-macro="fat">
+                            <div class="macro-info">
+                                <h4>Fat</h4>
+                                <p>Important for hormone production</p>
+                            </div>
+                            <div class="macro-progress">
+                                <div class="macro-fill fat" style="width: 81%"></div>
+                            </div>
+                            <div class="macro-value">
+                                <span class="macro-current">65g</span> / <span class="macro-target">80g</span>
+                            </div>
+                        </div>
+                        <div class="macro-item" data-macro="fiber">
+                            <div class="macro-info">
+                                <h4>Fiber</h4>
+                                <p>Good for digestion</p>
+                            </div>
+                            <div class="macro-progress">
+                                <div class="macro-fill fiber" style="width: 83%"></div>
+                            </div>
+                            <div class="macro-value">
+                                <span class="macro-current">25g</span> / <span class="macro-target">30g</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -299,43 +316,53 @@
     </section>
 
     <!-- Add Goal Modal -->
-    <div id="goalModal" class="modal">
+    <div class="modal">
         <div class="modal-content">
-            <span class="close">&times;</span>
-            <h2>Add New Fitness Goal</h2>
-            <form id="goalForm">
-                <div class="form-group">
-                    <label for="goalType">Goal Type:</label>
-                    <select id="goalType" required>
-                        <option value="">Select Goal Type</option>
-                        <option value="weight">Weight Loss/Gain</option>
-                        <option value="strength">Strength Training</option>
-                        <option value="endurance">Endurance</option>
-                        <option value="flexibility">Flexibility</option>
-                        <option value="custom">Custom Goal</option>
-                    </select>
+            <div class="modal-header">
+                <h3>Add New Fitness Goal</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <form id="addGoalForm">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="goalName">Goal Name:</label>
+                        <input type="text" id="goalName" name="goalName" placeholder="e.g., Lose 20 pounds" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="goalCategory">Goal Category:</label>
+                        <select id="goalCategory" name="goalCategory" required>
+                            <option value="">Select Category</option>
+                            <option value="weight">Weight Loss/Gain</option>
+                            <option value="strength">Strength Training</option>
+                            <option value="endurance">Endurance</option>
+                            <option value="flexibility">Flexibility</option>
+                            <option value="custom">Custom Goal</option>
+                        </select>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="goalTarget">Target Value:</label>
+                            <input type="text" id="goalTarget" name="goalTarget" placeholder="e.g., 180 lbs" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="goalDeadline">Target Date:</label>
+                            <input type="date" id="goalDeadline" name="goalDeadline" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="goalDescription">Description:</label>
+                        <textarea id="goalDescription" name="goalDescription" placeholder="Describe your goal and how you plan to achieve it..." rows="3"></textarea>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label for="goalTitle">Goal Title:</label>
-                    <input type="text" id="goalTitle" placeholder="e.g., Lose 20 pounds" required>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="closeAddGoalModal()">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Create Goal</button>
                 </div>
-                <div class="form-group">
-                    <label for="goalTarget">Target Value:</label>
-                    <input type="text" id="goalTarget" placeholder="e.g., 180 lbs" required>
-                </div>
-                <div class="form-group">
-                    <label for="goalDeadline">Target Date:</label>
-                    <input type="date" id="goalDeadline" required>
-                </div>
-                <div class="form-group">
-                    <label for="goalDescription">Description:</label>
-                    <textarea id="goalDescription" placeholder="Describe your goal and how you plan to achieve it..." rows="3"></textarea>
-                </div>
-                <button type="submit" class="btn btn-primary">Create Goal</button>
             </form>
         </div>
     </div>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
     <script src="../js/header.js"></script>
     <script src="../js/dashboard.js"></script>
 </body>

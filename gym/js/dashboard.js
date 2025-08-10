@@ -1,41 +1,77 @@
 // Dashboard Page JavaScript
-
 document.addEventListener('DOMContentLoaded', function() {
-    // Initialize dashboard components
+    // Initialize dashboard
+    initializeDashboard();
+    
+    // Initialize Chart.js for progress visualization
     initializeProgressChart();
-    initializeGoalModal();
-    initializeUserMenu();
-    initializeDashboardInteractions();
-    updateDashboardData();
+    
+    // Set up event listeners
+    setupEventListeners();
+    
+    // Load user data
+    loadUserData();
 });
 
-// Initialize Progress Chart using Chart.js
+// Dashboard initialization
+function initializeDashboard() {
+    // Set current date
+    const currentDate = new Date();
+    const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+    document.querySelector('.current-date').textContent = currentDate.toLocaleDateString('en-US', dateOptions);
+    
+    // Update quick stats
+    updateQuickStats();
+    
+    // Load today's workout
+    loadTodaysWorkout();
+    
+    // Load upcoming classes
+    loadUpcomingClasses();
+    
+    // Load fitness goals
+    loadFitnessGoals();
+    
+    // Load recent workouts
+    loadRecentWorkouts();
+    
+    // Load nutrition data
+    loadNutritionData();
+}
+
+// Initialize Chart.js progress chart
 function initializeProgressChart() {
     const ctx = document.getElementById('progressChart');
     if (!ctx) return;
-
-    const progressChart = new Chart(ctx, {
+    
+    // Create canvas element for Chart.js
+    const canvas = document.createElement('canvas');
+    canvas.id = 'progressChartCanvas';
+    ctx.appendChild(canvas);
+    
+    // Sample data - in real app, this would come from backend
+    const chartData = {
+        labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
+        datasets: [{
+            label: 'Weight (lbs)',
+            data: [180, 178, 176, 174],
+            borderColor: '#ff6b35',
+            backgroundColor: 'rgba(255, 107, 53, 0.1)',
+            tension: 0.4,
+            fill: true
+        }, {
+            label: 'Body Fat %',
+            data: [22, 21.5, 21, 20.5],
+            borderColor: '#3498db',
+            backgroundColor: 'rgba(52, 152, 219, 0.1)',
+            tension: 0.4,
+            fill: true
+        }]
+    };
+    
+    const config = {
         type: 'line',
-        data: {
-            labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
-            datasets: [{
-                label: 'Weight (lbs)',
-                data: [200, 198, 195, 192],
-                borderColor: '#667eea',
-                backgroundColor: 'rgba(102, 126, 234, 0.1)',
-                borderWidth: 3,
-                fill: true,
-                tension: 0.4
-            }, {
-                label: 'Body Fat %',
-                data: [22, 21.5, 21, 20.5],
-                borderColor: '#48bb78',
-                backgroundColor: 'rgba(72, 187, 120, 0.1)',
-                borderWidth: 3,
-                fill: true,
-                tension: 0.4
-            }]
-        },
+        data: chartData,
         options: {
             responsive: true,
             maintainAspectRatio: false,
@@ -44,10 +80,7 @@ function initializeProgressChart() {
                     position: 'top',
                     labels: {
                         usePointStyle: true,
-                        padding: 20,
-                        font: {
-                            size: 12
-                        }
+                        padding: 20
                     }
                 }
             },
@@ -71,508 +104,541 @@ function initializeProgressChart() {
                 }
             }
         }
-    });
+    };
+    
+    // Create chart
+    const progressChart = new Chart(canvas, config);
+    
+    // Store chart reference for potential updates
+    window.progressChart = progressChart;
+}
 
-    // Handle period change
-    const periodSelect = document.querySelector('.progress-period');
-    if (periodSelect) {
-        periodSelect.addEventListener('change', function() {
-            updateChartData(progressChart, this.value);
+// Set up event listeners
+function setupEventListeners() {
+    // Add goal button
+    const addGoalBtn = document.querySelector('.add-goal-btn');
+    if (addGoalBtn) {
+        addGoalBtn.addEventListener('click', openAddGoalModal);
+    }
+    
+    // Modal close button
+    const modalClose = document.querySelector('.modal-close');
+    if (modalClose) {
+        modalClose.addEventListener('click', closeAddGoalModal);
+    }
+    
+    // Modal backdrop click
+    const modal = document.querySelector('.modal');
+    if (modal) {
+        modal.addEventListener('click', function(e) {
+            if (e.target === modal) {
+                closeAddGoalModal();
+            }
         });
     }
-}
-
-// Update chart data based on selected period
-function updateChartData(chart, period) {
-    let labels, weightData, fatData;
     
-    switch(period) {
-        case 'week':
-            labels = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-            weightData = [192, 191.8, 191.5, 191.2, 191, 190.8, 190.5];
-            fatData = [20.5, 20.4, 20.3, 20.2, 20.1, 20.0, 19.9];
-            break;
-        case 'month':
-            labels = ['Week 1', 'Week 2', 'Week 3', 'Week 4'];
-            weightData = [200, 198, 195, 192];
-            fatData = [22, 21.5, 21, 20.5];
-            break;
-        case 'year':
-            labels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-            weightData = [210, 208, 205, 202, 200, 198, 196, 194, 192, 190, 188, 186];
-            fatData = [25, 24.5, 24, 23.5, 23, 22.5, 22, 21.5, 21, 20.5, 20, 19.5];
-            break;
+    // Add goal form submission
+    const addGoalForm = document.getElementById('addGoalForm');
+    if (addGoalForm) {
+        addGoalForm.addEventListener('submit', handleAddGoal);
     }
     
-    chart.data.labels = labels;
-    chart.data.datasets[0].data = weightData;
-    chart.data.datasets[1].data = fatData;
-    chart.update();
+    // User avatar click
+    const userAvatar = document.querySelector('.user-avatar');
+    if (userAvatar) {
+        userAvatar.addEventListener('click', toggleUserMenu);
+    }
+    
+    // Start workout button
+    const startWorkoutBtn = document.querySelector('.start-workout-btn');
+    if (startWorkoutBtn) {
+        startWorkoutBtn.addEventListener('click', startWorkout);
+    }
+    
+    // Log workout button
+    const logWorkoutBtn = document.querySelector('.log-workout-btn');
+    if (logWorkoutBtn) {
+        logWorkoutBtn.addEventListener('click', logWorkout);
+    }
 }
 
-// Initialize Goal Modal
-function initializeGoalModal() {
-    const modal = document.getElementById('goalModal');
-    const addGoalBtn = document.getElementById('addGoalBtn');
-    const closeBtn = document.querySelector('.close');
-    const goalForm = document.getElementById('goalForm');
+// Update quick stats
+function updateQuickStats() {
+    // In real app, these would come from backend
+    const stats = {
+        workouts: 12,
+        goalProgress: 75,
+        classesThisWeek: 3
+    };
+    
+    document.querySelector('.workouts-count .stat-number').textContent = stats.workouts;
+    document.querySelector('.goal-progress-count .stat-number').textContent = stats.goalProgress + '%';
+    document.querySelector('.classes-count .stat-number').textContent = stats.classesThisWeek;
+}
 
-    if (!modal || !addGoalBtn) return;
+// Load today's workout
+function loadTodaysWorkout() {
+    // Sample workout data - in real app, this would come from backend
+    const todaysWorkout = {
+        name: 'Upper Body Strength',
+        type: 'Strength Training',
+        duration: '45 minutes',
+        intensity: 'High',
+        exercises: ['Bench Press', 'Pull-ups', 'Overhead Press', 'Rows']
+    };
+    
+    const workoutName = document.querySelector('.workout-name');
+    const workoutDetails = document.querySelector('.workout-details');
+    
+    if (workoutName) {
+        workoutName.textContent = todaysWorkout.name;
+    }
+    
+    if (workoutDetails) {
+        workoutDetails.innerHTML = `
+            <p><strong>Type:</strong> ${todaysWorkout.type}</p>
+            <p><strong>Duration:</strong> ${todaysWorkout.duration}</p>
+            <p><strong>Intensity:</strong> ${todaysWorkout.intensity}</p>
+        `;
+    }
+}
 
-    // Open modal
-    addGoalBtn.addEventListener('click', function() {
-        modal.style.display = 'block';
-        document.body.style.overflow = 'hidden';
+// Load upcoming classes
+function loadUpcomingClasses() {
+    // Sample class data - in real app, this would come from backend
+    const upcomingClasses = [
+        {
+            time: '09:00',
+            name: 'Yoga Flow',
+            instructor: 'Sarah Johnson'
+        },
+        {
+            time: '17:30',
+            name: 'HIIT Cardio',
+            instructor: 'Mike Chen'
+        },
+        {
+            time: '19:00',
+            name: 'Strength Training',
+            instructor: 'Alex Rodriguez'
+        }
+    ];
+    
+    const classesList = document.querySelector('.upcoming-classes-list');
+    if (!classesList) return;
+    
+    classesList.innerHTML = '';
+    
+    upcomingClasses.forEach(classItem => {
+        const classElement = document.createElement('div');
+        classElement.className = 'class-item';
+        classElement.innerHTML = `
+            <div class="class-time">${classItem.time}</div>
+            <div class="class-details">
+                <h4>${classItem.name}</h4>
+                <p>with ${classItem.instructor}</p>
+            </div>
+        `;
+        classesList.appendChild(classElement);
     });
+}
 
-    // Close modal
-    closeBtn.addEventListener('click', function() {
-        closeModal();
+// Load fitness goals
+function loadFitnessGoals() {
+    // Sample goals data - in real app, this would come from backend
+    const goals = [
+        {
+            name: 'Lose 10 pounds',
+            target: '180 → 170 lbs',
+            progress: 60,
+            status: 'in-progress'
+        },
+        {
+            name: 'Run 5K',
+            target: '0 → 3.1 miles',
+            progress: 100,
+            status: 'completed'
+        },
+        {
+            name: 'Bench Press 200 lbs',
+            target: '150 → 200 lbs',
+            progress: 25,
+            status: 'not-started'
+        }
+    ];
+    
+    const goalsList = document.querySelector('.goals-list');
+    if (!goalsList) return;
+    
+    goalsList.innerHTML = '';
+    
+    goals.forEach(goal => {
+        const goalElement = document.createElement('div');
+        goalElement.className = 'goal-item';
+        goalElement.innerHTML = `
+            <div class="goal-header">
+                <span class="goal-name">${goal.name}</span>
+                <span class="goal-status ${goal.status}">${goal.status.replace('-', ' ')}</span>
+            </div>
+            <div class="goal-progress">
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: ${goal.progress}%"></div>
+                </div>
+            </div>
+            <div class="goal-target">${goal.target}</div>
+        `;
+        goalsList.appendChild(goalElement);
     });
+}
 
-    // Close modal when clicking outside
-    window.addEventListener('click', function(event) {
-        if (event.target === modal) {
-            closeModal();
+// Load recent workouts
+function loadRecentWorkouts() {
+    // Sample workout history - in real app, this would come from backend
+    const recentWorkouts = [
+        {
+            name: 'Lower Body Strength',
+            date: '2 days ago',
+            rating: 4
+        },
+        {
+            name: 'Cardio HIIT',
+            date: '3 days ago',
+            rating: 5
+        },
+        {
+            name: 'Upper Body',
+            date: '5 days ago',
+            rating: 3
+        }
+    ];
+    
+    const workoutsList = document.querySelector('.recent-workouts-list');
+    if (!workoutsList) return;
+    
+    workoutsList.innerHTML = '';
+    
+    recentWorkouts.forEach(workout => {
+        const workoutElement = document.createElement('div');
+        workoutElement.className = 'workout-item';
+        
+        const stars = generateStars(workout.rating);
+        
+        workoutElement.innerHTML = `
+            <div class="workout-details">
+                <h4>${workout.name}</h4>
+                <p>${workout.date}</p>
+            </div>
+            <div class="workout-rating">
+                ${stars}
+            </div>
+        `;
+        workoutsList.appendChild(workoutElement);
+    });
+}
+
+// Generate star rating HTML
+function generateStars(rating) {
+    let stars = '';
+    for (let i = 1; i <= 5; i++) {
+        if (i <= rating) {
+            stars += '<i class="fas fa-star star"></i>';
+        } else {
+            stars += '<i class="fas fa-star star empty"></i>';
+        }
+    }
+    return stars;
+}
+
+// Load nutrition data
+function loadNutritionData() {
+    // Sample nutrition data - in real app, this would come from backend
+    const nutritionData = {
+        protein: { current: 120, target: 150, unit: 'g' },
+        carbs: { current: 200, target: 250, unit: 'g' },
+        fat: { current: 65, target: 80, unit: 'g' },
+        fiber: { current: 25, target: 30, unit: 'g' }
+    };
+    
+    Object.keys(nutritionData).forEach(macro => {
+        const macroElement = document.querySelector(`.macro-item[data-macro="${macro}"]`);
+        if (!macroElement) return;
+        
+        const data = nutritionData[macro];
+        const percentage = Math.min((data.current / data.target) * 100, 100);
+        
+        const progressFill = macroElement.querySelector('.macro-fill');
+        const currentValue = macroElement.querySelector('.macro-current');
+        const targetValue = macroElement.querySelector('.macro-target');
+        
+        if (progressFill) {
+            progressFill.style.width = `${percentage}%`;
+        }
+        
+        if (currentValue) {
+            currentValue.textContent = `${data.current}${data.unit}`;
+        }
+        
+        if (targetValue) {
+            targetValue.textContent = `${data.target}${data.unit}`;
         }
     });
+}
 
-    // Handle form submission
-    goalForm.addEventListener('submit', function(e) {
-        e.preventDefault();
-        handleGoalSubmission();
-    });
-
-    // Set minimum date for deadline
-    const deadlineInput = document.getElementById('goalDeadline');
-    if (deadlineInput) {
-        const today = new Date().toISOString().split('T')[0];
-        deadlineInput.min = today;
+// Open add goal modal
+function openAddGoalModal() {
+    const modal = document.querySelector('.modal');
+    if (modal) {
+        modal.classList.add('show');
+        document.body.style.overflow = 'hidden';
     }
 }
 
-// Close modal function
-function closeModal() {
-    const modal = document.getElementById('goalModal');
-    modal.style.display = 'none';
-    document.body.style.overflow = 'auto';
+// Close add goal modal
+function closeAddGoalModal() {
+    const modal = document.querySelector('.modal');
+    if (modal) {
+        modal.classList.remove('show');
+        document.body.style.overflow = '';
+    }
+}
+
+// Handle add goal form submission
+function handleAddGoal(e) {
+    e.preventDefault();
     
-    // Reset form
-    const goalForm = document.getElementById('goalForm');
-    if (goalForm) {
-        goalForm.reset();
-    }
-}
-
-// Handle goal form submission
-function handleGoalSubmission() {
-    const formData = new FormData(document.getElementById('goalForm'));
+    const formData = new FormData(e.target);
     const goalData = {
-        type: formData.get('goalType'),
-        title: formData.get('goalTitle'),
+        name: formData.get('goalName'),
+        category: formData.get('goalCategory'),
         target: formData.get('goalTarget'),
         deadline: formData.get('goalDeadline'),
-        description: formData.get('goalDescription'),
-        progress: 0,
-        status: 'in-progress'
+        description: formData.get('goalDescription')
     };
-
-    // Add goal to the goals list
-    addGoalToList(goalData);
     
-    // Close modal
-    closeModal();
+    // Validate form data
+    if (!goalData.name || !goalData.target) {
+        showNotification('Please fill in all required fields.', 'error');
+        return;
+    }
     
-    // Show success notification
-    showNotification('Goal created successfully!', 'success');
+    // Simulate API call
+    showNotification('Adding goal...', 'info');
+    
+    setTimeout(() => {
+        // Add goal to the list
+        addGoalToList(goalData);
+        
+        // Close modal and reset form
+        closeAddGoalModal();
+        e.target.reset();
+        
+        showNotification('Goal added successfully!', 'success');
+        
+        // Update goal count in quick stats
+        updateGoalCount();
+    }, 1000);
 }
 
-// Add new goal to the goals list
+// Add goal to the goals list
 function addGoalToList(goalData) {
     const goalsList = document.querySelector('.goals-list');
     if (!goalsList) return;
-
-    const goalItem = document.createElement('div');
-    goalItem.className = 'goal-item';
-    goalItem.innerHTML = `
-        <div class="goal-info">
-            <h4>${goalData.title}</h4>
-            <p>Target: ${goalData.target}</p>
-            <div class="goal-progress">
-                <div class="progress-bar">
-                    <div class="progress-fill" style="width: ${goalData.progress}%"></div>
-                </div>
-                <span class="progress-text">${goalData.progress}%</span>
+    
+    const goalElement = document.createElement('div');
+    goalElement.className = 'goal-item';
+    goalElement.innerHTML = `
+        <div class="goal-header">
+            <span class="goal-name">${goalData.name}</span>
+            <span class="goal-status not-started">not started</span>
+        </div>
+        <div class="goal-progress">
+            <div class="progress-bar">
+                <div class="progress-fill" style="width: 0%"></div>
             </div>
         </div>
-        <span class="goal-status ${goalData.status}">${goalData.status.replace('-', ' ')}</span>
+        <div class="goal-target">${goalData.target}</div>
     `;
+    
+    goalsList.appendChild(goalElement);
+}
 
-    // Add animation
-    goalItem.style.opacity = '0';
-    goalItem.style.transform = 'translateY(20px)';
-    goalsList.appendChild(goalItem);
+// Update goal count in quick stats
+function updateGoalCount() {
+    const goalsList = document.querySelector('.goals-list');
+    if (!goalsList) return;
+    
+    const totalGoals = goalsList.children.length;
+    const completedGoals = goalsList.querySelectorAll('.goal-status.completed').length;
+    const progressPercentage = totalGoals > 0 ? Math.round((completedGoals / totalGoals) * 100) : 0;
+    
+    const goalProgressElement = document.querySelector('.goal-progress-count .stat-number');
+    if (goalProgressElement) {
+        goalProgressElement.textContent = progressPercentage + '%';
+    }
+}
 
-    // Animate in
+// Toggle user menu
+function toggleUserMenu() {
+    // In real app, this would show a dropdown menu
+    showNotification('User menu clicked!', 'info');
+}
+
+// Start workout
+function startWorkout() {
+    showNotification('Starting workout...', 'info');
+    
+    // In real app, this would navigate to workout page or start workout timer
     setTimeout(() => {
-        goalItem.style.transition = 'all 0.3s ease';
-        goalItem.style.opacity = '1';
-        goalItem.style.transform = 'translateY(0)';
-    }, 10);
+        showNotification('Workout started! Good luck!', 'success');
+    }, 1000);
 }
 
-// Initialize User Menu
-function initializeUserMenu() {
-    const userToggle = document.querySelector('.user-toggle');
-    const userDropdown = document.querySelector('.user-dropdown');
-
-    if (!userToggle || !userDropdown) return;
-
-    // Toggle dropdown on click (for mobile)
-    userToggle.addEventListener('click', function(e) {
-        e.stopPropagation();
-        userDropdown.classList.toggle('show');
-    });
-
-    // Close dropdown when clicking outside
-    document.addEventListener('click', function() {
-        userDropdown.classList.remove('show');
-    });
-
-    // Handle dropdown item clicks
-    const dropdownItems = userDropdown.querySelectorAll('a');
-    dropdownItems.forEach(item => {
-        item.addEventListener('click', function(e) {
-            e.preventDefault();
-            const action = this.getAttribute('href').substring(1);
-            handleUserAction(action);
-        });
-    });
-}
-
-// Handle user menu actions
-function handleUserAction(action) {
-    switch(action) {
-        case 'profile':
-            showNotification('Profile page coming soon!', 'info');
-            break;
-        case 'settings':
-            showNotification('Settings page coming soon!', 'info');
-            break;
-        case 'logout':
-            if (confirm('Are you sure you want to logout?')) {
-                showNotification('Logging out...', 'info');
-                // Add logout logic here
-            }
-            break;
-    }
-}
-
-// Initialize Dashboard Interactions
-function initializeDashboardInteractions() {
-    // Workout actions
-    const startWorkoutBtn = document.querySelector('.workout-actions .btn-primary');
-    if (startWorkoutBtn) {
-        startWorkoutBtn.addEventListener('click', function() {
-            showNotification('Starting workout...', 'success');
-            // Add workout start logic here
-        });
-    }
-
-    // Class join buttons
-    const joinButtons = document.querySelectorAll('.classes-card .btn-outline');
-    joinButtons.forEach(button => {
-        button.addEventListener('click', function() {
-            const className = this.closest('.class-item').querySelector('h4').textContent;
-            showNotification(`Joining ${className}...`, 'success');
-            // Add class joining logic here
-        });
-    });
-
-    // Log meal button
-    const logMealBtn = document.querySelector('.nutrition-card .btn-outline');
-    if (logMealBtn) {
-        logMealBtn.addEventListener('click', function() {
-            showNotification('Meal logging coming soon!', 'info');
-        });
-    }
-
-    // View details buttons
-    const viewDetailsBtns = document.querySelectorAll('.btn-outline');
-    viewDetailsBtns.forEach(button => {
-        if (button.textContent === 'View Details') {
-            button.addEventListener('click', function() {
-                showNotification('Detailed view coming soon!', 'info');
-            });
+// Log workout
+function logWorkout() {
+    showNotification('Logging workout...', 'info');
+    
+    // In real app, this would open a workout logging form
+    setTimeout(() => {
+        showNotification('Workout logged successfully!', 'success');
+        
+        // Update workout count
+        const workoutCountElement = document.querySelector('.workouts-count .stat-number');
+        if (workoutCountElement) {
+            const currentCount = parseInt(workoutCountElement.textContent);
+            workoutCountElement.textContent = currentCount + 1;
         }
-    });
+    }, 1000);
 }
 
-// Update Dashboard Data
-function updateDashboardData() {
-    // Update current date
-    updateCurrentDate();
+// Load user data
+function loadUserData() {
+    // In real app, this would fetch user data from backend
+    const userData = {
+        name: 'John Doe',
+        role: 'Premium Member',
+        avatar: 'JD'
+    };
     
-    // Update quick stats with real-time data
-    updateQuickStats();
+    // Update user info in header
+    const userNameElement = document.querySelector('.user-name');
+    const userRoleElement = document.querySelector('.user-role');
+    const userAvatarElement = document.querySelector('.user-avatar');
     
-    // Update nutrition data
-    updateNutritionData();
-}
-
-// Update current date in workout card
-function updateCurrentDate() {
-    const workoutDate = document.querySelector('.workout-date');
-    if (workoutDate) {
-        const today = new Date();
-        const options = { 
-            weekday: 'long', 
-            year: 'numeric', 
-            month: 'long', 
-            day: 'numeric' 
-        };
-        workoutDate.textContent = today.toLocaleDateString('en-US', options);
+    if (userNameElement) {
+        userNameElement.textContent = userData.name;
     }
-
-    const nutritionDate = document.querySelector('.nutrition-date');
-    if (nutritionDate) {
-        const today = new Date();
-        const options = { 
-            year: 'numeric', 
-            month: 'long', 
-            day: 'numeric' 
-        };
-        nutritionDate.textContent = today.toLocaleDateString('en-US', options);
+    
+    if (userRoleElement) {
+        userRoleElement.textContent = userData.role;
+    }
+    
+    if (userAvatarElement) {
+        userAvatarElement.textContent = userData.avatar;
     }
 }
 
-// Update quick stats with animated counters
-function updateQuickStats() {
-    const statValues = document.querySelectorAll('.stat-value');
-    
-    statValues.forEach(stat => {
-        const finalValue = stat.textContent;
-        const isPercentage = finalValue.includes('%');
-        const numericValue = parseInt(finalValue.replace(/[^\d]/g, ''));
-        
-        if (!isNaN(numericValue)) {
-            animateCounter(stat, 0, numericValue, isPercentage);
-        }
-    });
-}
-
-// Animate counter from start to end value
-function animateCounter(element, start, end, isPercentage) {
-    const duration = 2000;
-    const startTime = performance.now();
-    
-    function updateCounter(currentTime) {
-        const elapsed = currentTime - startTime;
-        const progress = Math.min(elapsed / duration, 1);
-        
-        const current = Math.floor(start + (end - start) * progress);
-        element.textContent = isPercentage ? `${current}%` : current;
-        
-        if (progress < 1) {
-            requestAnimationFrame(updateCounter);
-        }
-    }
-    
-    requestAnimationFrame(updateCounter);
-}
-
-// Update nutrition data with real-time values
-function updateNutritionData() {
-    // Simulate real-time nutrition updates
-    const macroBars = document.querySelectorAll('.macro-fill');
-    const macroValues = document.querySelectorAll('.macro-value');
-    
-    macroBars.forEach((bar, index) => {
-        const currentWidth = bar.style.width;
-        const targetWidth = getRandomWidth();
-        
-        // Animate to new width
-        setTimeout(() => {
-            bar.style.width = targetWidth;
-        }, index * 200);
-    });
-}
-
-// Get random width for nutrition bars (for demo purposes)
-function getRandomWidth() {
-    const widths = ['75%', '82%', '78%', '85%'];
-    return widths[Math.floor(Math.random() * widths.length)];
-}
-
-// Show notification function
+// Show notification
 function showNotification(message, type = 'info') {
     // Remove existing notifications
     const existingNotifications = document.querySelectorAll('.notification');
     existingNotifications.forEach(notification => notification.remove());
-
+    
     // Create notification element
     const notification = document.createElement('div');
     notification.className = `notification notification-${type}`;
     notification.innerHTML = `
         <div class="notification-content">
-            <i class="fas fa-${getNotificationIcon(type)}"></i>
-            <span>${message}</span>
+            <span class="notification-message">${message}</span>
+            <button class="notification-close">&times;</button>
         </div>
     `;
-
+    
     // Add styles
     notification.style.cssText = `
         position: fixed;
         top: 20px;
         right: 20px;
-        background: ${getNotificationColor(type)};
+        background: ${type === 'success' ? '#27ae60' : type === 'error' ? '#e74c3c' : '#3498db'};
         color: white;
         padding: 1rem 1.5rem;
         border-radius: 8px;
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-        z-index: 10000;
-        transform: translateX(100%);
-        transition: transform 0.3s ease;
-        max-width: 300px;
+        z-index: 3000;
+        max-width: 400px;
+        animation: slideInRight 0.3s ease;
     `;
-
+    
+    // Add close button functionality
+    const closeBtn = notification.querySelector('.notification-close');
+    closeBtn.addEventListener('click', () => {
+        notification.remove();
+    });
+    
     // Add to page
     document.body.appendChild(notification);
-
-    // Animate in
+    
+    // Auto remove after 5 seconds
     setTimeout(() => {
-        notification.style.transform = 'translateX(0)';
-    }, 100);
-
-    // Auto remove after 3 seconds
-    setTimeout(() => {
-        notification.style.transform = 'translateX(100%)';
-        setTimeout(() => {
-            if (notification.parentNode) {
-                notification.parentNode.removeChild(notification);
-            }
-        }, 300);
-    }, 3000);
-}
-
-// Get notification icon based on type
-function getNotificationIcon(type) {
-    switch(type) {
-        case 'success': return 'check-circle';
-        case 'error': return 'exclamation-circle';
-        case 'warning': return 'exclamation-triangle';
-        default: return 'info-circle';
-    }
-}
-
-// Get notification color based on type
-function getNotificationColor(type) {
-    switch(type) {
-        case 'success': return '#48bb78';
-        case 'error': return '#f56565';
-        case 'warning': return '#ed8936';
-        default: return '#4299e1';
-    }
-}
-
-// Add smooth scrolling for anchor links
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
-        if (target) {
-            target.scrollIntoView({
-                behavior: 'smooth',
-                block: 'start'
-            });
-        }
-    });
-});
-
-// Add loading states for buttons
-document.querySelectorAll('.btn').forEach(button => {
-    button.addEventListener('click', function() {
-        if (!this.classList.contains('btn-outline') || this.textContent === 'View Details') {
-            this.style.pointerEvents = 'none';
-            const originalText = this.textContent;
-            this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Loading...';
-            
+        if (notification.parentNode) {
+            notification.style.animation = 'slideOutRight 0.3s ease';
             setTimeout(() => {
-                this.innerHTML = originalText;
-                this.style.pointerEvents = 'auto';
-            }, 2000);
+                if (notification.parentNode) {
+                    notification.remove();
+                }
+            }, 300);
         }
-    });
-});
-
-// Add hover effects for cards
-document.querySelectorAll('.dashboard-card').forEach(card => {
-    card.addEventListener('mouseenter', function() {
-        this.style.transform = 'translateY(-5px) scale(1.02)';
-    });
-    
-    card.addEventListener('mouseleave', function() {
-        this.style.transform = 'translateY(0) scale(1)';
-    });
-});
-
-// Initialize tooltips for progress bars
-document.querySelectorAll('.progress-bar').forEach(bar => {
-    bar.addEventListener('mouseenter', function() {
-        const fill = this.querySelector('.progress-fill');
-        const width = fill.style.width;
-        this.title = `Progress: ${width}`;
-    });
-});
-
-// Add keyboard navigation for modal
-document.addEventListener('keydown', function(e) {
-    const modal = document.getElementById('goalModal');
-    if (modal && modal.style.display === 'block') {
-        if (e.key === 'Escape') {
-            closeModal();
-        }
-    }
-});
-
-// Add form validation for goal creation
-function validateGoalForm() {
-    const title = document.getElementById('goalTitle').value.trim();
-    const target = document.getElementById('goalTarget').value.trim();
-    const deadline = document.getElementById('goalDeadline').value;
-    
-    if (title.length < 3) {
-        showNotification('Goal title must be at least 3 characters long', 'error');
-        return false;
-    }
-    
-    if (target.length < 2) {
-        showNotification('Please enter a valid target value', 'error');
-        return false;
-    }
-    
-    if (!deadline) {
-        showNotification('Please select a deadline', 'error');
-        return false;
-    }
-    
-    const selectedDate = new Date(deadline);
-    const today = new Date();
-    if (selectedDate <= today) {
-        showNotification('Deadline must be in the future', 'error');
-        return false;
-    }
-    
-    return true;
+    }, 5000);
 }
 
-// Override form submission to include validation
-const goalForm = document.getElementById('goalForm');
-if (goalForm) {
-    goalForm.addEventListener('submit', function(e) {
-        if (!validateGoalForm()) {
-            e.preventDefault();
-            return false;
+// Add notification animations to CSS
+const notificationStyles = document.createElement('style');
+notificationStyles.textContent = `
+    @keyframes slideInRight {
+        from {
+            transform: translateX(100%);
+            opacity: 0;
         }
-    });
+        to {
+            transform: translateX(0);
+            opacity: 1;
+        }
+    }
+    
+    @keyframes slideOutRight {
+        from {
+            transform: translateX(0);
+            opacity: 1;
+        }
+        to {
+            transform: translateX(100%);
+            opacity: 0;
+        }
+    }
+`;
+document.head.appendChild(notificationStyles);
+
+// Utility function to format date
+function formatDate(date) {
+    const options = { year: 'numeric', month: 'short', day: 'numeric' };
+    return date.toLocaleDateString('en-US', options);
 }
+
+// Utility function to format time
+function formatTime(date) {
+    const options = { hour: '2-digit', minute: '2-digit' };
+    return date.toLocaleTimeString('en-US', options);
+}
+
+// Export functions for potential external use
+window.dashboardFunctions = {
+    initializeDashboard,
+    updateQuickStats,
+    loadTodaysWorkout,
+    loadUpcomingClasses,
+    loadFitnessGoals,
+    loadRecentWorkouts,
+    loadNutritionData,
+    openAddGoalModal,
+    closeAddGoalModal,
+    showNotification
+};
