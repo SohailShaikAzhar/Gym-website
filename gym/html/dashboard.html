@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Member Dashboard | PtsfitnessStudio Gym</title>
+    <link rel="stylesheet" href="../css/hearder.css">
+    <link rel="stylesheet" href="../css/dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&family=Oswald:wght@600&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <header class="main-header">
+        <div class="container">
+            <div class="logo">
+                <a href="home_page.html">PTSFITNESS<span>STUDIO</span></a>
+            </div>
+            
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="home_page.html">Home</a></li>
+                    <li><a href="classes.html">Classes</a></li>
+                    <li><a href="home_page.html#trainers">Trainers</a></li>
+                    <li><a href="home_page.html#membership">Membership</a></li>
+                    <li><a href="dashboard.html" class="active">Dashboard</a></li>
+                    <li><a href="home_page.html#contact">Contact</a></li>
+                </ul>
+            </nav>
+            
+            <div class="header-cta">
+                <div class="user-menu">
+                    <button class="user-toggle">
+                        <i class="fas fa-user-circle"></i>
+                        <span>John Doe</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="user-dropdown">
+                        <a href="#profile"><i class="fas fa-user"></i> Profile</a>
+                        <a href="#settings"><i class="fas fa-cog"></i> Settings</a>
+                        <a href="#logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                    </div>
+                </div>
+                <button class="mobile-menu-toggle" aria-label="Toggle mobile menu">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <section class="dashboard-hero">
+        <div class="container">
+            <div class="welcome-section">
+                <h1>Welcome back, <span>John!</span></h1>
+                <p>Let's crush today's workout and stay on track with your fitness goals.</p>
+                <div class="quick-stats">
+                    <div class="stat-item">
+                        <i class="fas fa-fire"></i>
+                        <div class="stat-info">
+                            <span class="stat-value">12</span>
+                            <span class="stat-label">Workouts This Month</span>
+                        </div>
+                    </div>
+                    <div class="stat-item">
+                        <i class="fas fa-trophy"></i>
+                        <div class="stat-info">
+                            <span class="stat-value">85%</span>
+                            <span class="stat-label">Goal Progress</span>
+                        </div>
+                    </div>
+                    <div class="stat-item">
+                        <i class="fas fa-calendar-check"></i>
+                        <div class="stat-info">
+                            <span class="stat-value">3</span>
+                            <span class="stat-label">Classes This Week</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="dashboard-content">
+        <div class="container">
+            <div class="dashboard-grid">
+                <!-- Today's Workout -->
+                <div class="dashboard-card workout-card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-dumbbell"></i> Today's Workout</h3>
+                        <span class="workout-date">December 18, 2024</span>
+                    </div>
+                    <div class="workout-content">
+                        <div class="workout-type">
+                            <span class="workout-badge">CrossFit</span>
+                            <span class="workout-time">7:00 AM</span>
+                        </div>
+                        <div class="workout-details">
+                            <p>High-intensity functional training with Naveen</p>
+                            <div class="workout-actions">
+                                <button class="btn btn-primary">Start Workout</button>
+                                <button class="btn btn-outline">View Details</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Progress Chart -->
+                <div class="dashboard-card progress-card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-chart-line"></i> Progress Overview</h3>
+                        <select class="progress-period">
+                            <option value="week">This Week</option>
+                            <option value="month" selected>This Month</option>
+                            <option value="year">This Year</option>
+                        </select>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="progressChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Upcoming Classes -->
+                <div class="dashboard-card classes-card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-calendar-alt"></i> Upcoming Classes</h3>
+                        <a href="classes.html" class="view-all">View All</a>
+                    </div>
+                    <div class="classes-list">
+                        <div class="class-item">
+                            <div class="class-info">
+                                <h4>Yoga</h4>
+                                <p>Tomorrow, 8:00 AM</p>
+                                <span class="trainer">Srikanth</span>
+                            </div>
+                            <button class="btn btn-outline">Join</button>
+                        </div>
+                        <div class="class-item">
+                            <div class="class-info">
+                                <h4>Boxing</h4>
+                                <p>Thursday, 6:00 PM</p>
+                                <span class="trainer">Manikanth</span>
+                            </div>
+                            <button class="btn btn-outline">Join</button>
+                        </div>
+                        <div class="class-item">
+                            <div class="class-info">
+                                <h4>CrossFit</h4>
+                                <p>Friday, 7:00 AM</p>
+                                <span class="trainer">Naveen</span>
+                            </div>
+                            <button class="btn btn-outline">Join</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Fitness Goals -->
+                <div class="dashboard-card goals-card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-bullseye"></i> Fitness Goals</h3>
+                        <button class="btn btn-outline btn-sm" id="addGoalBtn">Add Goal</button>
+                    </div>
+                    <div class="goals-list">
+                        <div class="goal-item">
+                            <div class="goal-info">
+                                <h4>Weight Loss</h4>
+                                <p>Target: 180 lbs</p>
+                                <div class="goal-progress">
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" style="width: 75%"></div>
+                                    </div>
+                                    <span class="progress-text">75%</span>
+                                </div>
+                            </div>
+                            <span class="goal-status completed">On Track</span>
+                        </div>
+                        <div class="goal-item">
+                            <div class="goal-info">
+                                <h4>Bench Press</h4>
+                                <p>Target: 225 lbs</p>
+                                <div class="goal-progress">
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" style="width: 60%"></div>
+                                    </div>
+                                    <span class="progress-text">60%</span>
+                                </div>
+                            </div>
+                            <span class="goal-status in-progress">In Progress</span>
+                        </div>
+                        <div class="goal-item">
+                            <div class="goal-info">
+                                <h4>Running Distance</h4>
+                                <p>Target: 10K</p>
+                                <div class="goal-progress">
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" style="width: 40%"></div>
+                                    </div>
+                                    <span class="progress-text">40%</span>
+                                </div>
+                            </div>
+                            <span class="goal-status needs-work">Needs Work</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Workout History -->
+                <div class="dashboard-card history-card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-history"></i> Recent Workouts</h3>
+                        <a href="#history" class="view-all">View All</a>
+                    </div>
+                    <div class="workout-history">
+                        <div class="history-item">
+                            <div class="history-date">Dec 17</div>
+                            <div class="history-details">
+                                <h4>CrossFit</h4>
+                                <p>45 minutes • 320 calories</p>
+                            </div>
+                            <div class="history-rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="far fa-star"></i>
+                            </div>
+                        </div>
+                        <div class="history-item">
+                            <div class="history-date">Dec 15</div>
+                            <div class="history-details">
+                                <h4>Yoga</h4>
+                                <p>75 minutes • 180 calories</p>
+                            </div>
+                            <div class="history-rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                        <div class="history-item">
+                            <div class="history-date">Dec 13</div>
+                            <div class="history-details">
+                                <h4>Boxing</h4>
+                                <p>60 minutes • 450 calories</p>
+                            </div>
+                            <div class="history-rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="far fa-star"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Nutrition Tracker -->
+                <div class="dashboard-card nutrition-card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-apple-alt"></i> Nutrition Today</h3>
+                        <span class="nutrition-date">December 18, 2024</span>
+                    </div>
+                    <div class="nutrition-content">
+                        <div class="nutrition-macros">
+                            <div class="macro-item">
+                                <span class="macro-label">Calories</span>
+                                <span class="macro-value">1,850 / 2,200</span>
+                                <div class="macro-bar">
+                                    <div class="macro-fill" style="width: 84%"></div>
+                                </div>
+                            </div>
+                            <div class="macro-item">
+                                <span class="macro-label">Protein</span>
+                                <span class="macro-value">120g / 150g</span>
+                                <div class="macro-bar">
+                                    <div class="macro-fill" style="width: 80%"></div>
+                                </div>
+                            </div>
+                            <div class="macro-item">
+                                <span class="macro-label">Carbs</span>
+                                <span class="macro-value">180g / 220g</span>
+                                <div class="macro-bar">
+                                    <div class="macro-fill" style="width: 82%"></div>
+                                </div>
+                            </div>
+                            <div class="macro-item">
+                                <span class="macro-label">Fat</span>
+                                <span class="macro-value">65g / 75g</span>
+                                <div class="macro-bar">
+                                    <div class="macro-fill" style="width: 87%"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="btn btn-outline">Log Meal</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Add Goal Modal -->
+    <div id="goalModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Add New Fitness Goal</h2>
+            <form id="goalForm">
+                <div class="form-group">
+                    <label for="goalType">Goal Type:</label>
+                    <select id="goalType" required>
+                        <option value="">Select Goal Type</option>
+                        <option value="weight">Weight Loss/Gain</option>
+                        <option value="strength">Strength Training</option>
+                        <option value="endurance">Endurance</option>
+                        <option value="flexibility">Flexibility</option>
+                        <option value="custom">Custom Goal</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="goalTitle">Goal Title:</label>
+                    <input type="text" id="goalTitle" placeholder="e.g., Lose 20 pounds" required>
+                </div>
+                <div class="form-group">
+                    <label for="goalTarget">Target Value:</label>
+                    <input type="text" id="goalTarget" placeholder="e.g., 180 lbs" required>
+                </div>
+                <div class="form-group">
+                    <label for="goalDeadline">Target Date:</label>
+                    <input type="date" id="goalDeadline" required>
+                </div>
+                <div class="form-group">
+                    <label for="goalDescription">Description:</label>
+                    <textarea id="goalDescription" placeholder="Describe your goal and how you plan to achieve it..." rows="3"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Create Goal</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="../js/header.js"></script>
+    <script src="../js/dashboard.js"></script>
+</body>
+</html>
